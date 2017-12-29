@@ -33,54 +33,179 @@ var roomController = (function(){
         
         
         // standing at the enterance to the Shallow Fane
-        main_00: {
+        sf_e00: {
                     description: 'Man stands at opening to Shallow Fane',
+                    navDescrip: 'The gate to the Shallow Fane',
                     current: 'main_00',
-                    forwardOpt: ['main_00', 'main_01']
+                    navOpt: ['e01']
                 },
-        main_01: {
+        sf_e01: {
                     description: 'Enters gate to the Shallow Fane, heads down the stairs',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'main_01',
-                    forwardOpt: ['main_00', 'main_02']
+                    navOpt: ['e00', 'e02']
                 },
-        main_02: {
+        sf_e02: {
                     description: 'At the foot of stairs, enters giant cavern. Burrow to right, cairns to left, temple ahead.',
                     current: 'main_02',
-                    forwardOpt: ['main_01', 'burrow_00', 'cairn_00', 'temple_00']
+                    navOpt: ['e02', 'c00', 't00', 'b00']
                 },
-        burrow_00: {
+        sf_b00: {
                     description: 'Inside of burrow enterance, hear scrabbling.',
                     current: 'main_02',
-                    forwardOpt: ['main_02', 'burrow_01']
+                    navOpt: ['b01']
                 },
-        burrow_01: {
+        sf_b01: {
                     description: 'Uh, oh, burrow bugs!',
                     current: 'burrow_00',
-                    forwardOpt: ['burrow_02']
+                    navOpt: ['b00', 'b02']
                 },
-        burrow_02: {
-                    description: 'burrow_02 Uh, oh, burrow bugs!',
-                    current: 'burrow_01',
-                    forwardOpt: ['burrow_02a', 'burrow_03', 'burrow_02b']
-        },
-        burrow_03: {
-                    description: 'burrow_03 Uh, oh, burrow bugs!',
-                    current: 'burrow_02',
-                    forwardOpt: ['burrow_02a', 'burrow_03', 'burrow_02b']
-        },
-        burrow_04: {
-                    description: 'burrow_04 Uh, oh, burrow bugs!',
-        },
-        burrow_05: {
-                    description: 'burrow_05 Uh, oh, burrow bugs!',
-        },
-        burrow_02a: {
-                    description: 'burrow_02a Uh, oh, burrow bugs!',
-        },
-        burrow_02b: {
-                    description: 'burrow_02b Uh, oh, burrow bugs!',
-        }
-    };
+       sf_b02: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: ['b01']
+                },
+        sf_b03: {
+                description: 'Uh, oh, burrow bugs!',
+                current: 'burrow_00',
+                navOpt: ['b01', 'b05','b04']
+            },
+        sf_b04: {
+                description: 'Uh, oh, burrow bugs!',
+                current: 'burrow_00',
+                navOpt: ['b03','b06']
+            },
+        sf_b05: {
+                description: 'Uh, oh, burrow bugs!',
+                current: 'burrow_00',
+                navOpt: ['t03', 'b03']
+            },
+        sf_b06: {
+                description: 'Uh, oh, burrow bugs!',
+                current: 'burrow_00',
+                navOpt: []
+            },
+        sf_b07: {
+                description: 'Uh, oh, burrow bugs!',
+                current: 'burrow_00',
+                navOpt: []
+            },
+        sf_b08: {
+                description: 'Uh, oh, burrow bugs!',
+                current: 'burrow_00',
+                navOpt: []
+            },
+        sf_t00: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: []
+                },
+        sf_t00: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: []
+                },
+        sf_t01: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: []
+                },
+        sf_t02: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_t03: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_t04: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_t05: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_t06: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_tb0: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_tr0: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c00: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c01: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c02: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c03: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c04: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c05: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c06: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c07: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c08: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c09: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_c10: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                },
+        sf_cr0: {
+                    description: 'Uh, oh, burrow bugs!',
+                    current: 'burrow_00',
+                    navOpt: [ ]
+                }
+};
     
     //// FUNCTIONS ////
     
@@ -91,7 +216,7 @@ var roomController = (function(){
         
         
         
-        curRoom.forwardOpt.forEach(function(cur){
+        curRoom.navOpt.forEach(function(cur){
             buttons.innerHTML += '<button id="' + cur + '">Forward to: ' + cur + '</button>'
         });
         buttons.addEventListener('click', function(event, target){
