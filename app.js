@@ -3,6 +3,41 @@
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
+// Battle CONTROLLER >>>
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+var battleController = (function(){
+    
+    //// VARIABLES ////
+    
+    
+    //// FUNCTIONS ////
+    function listToArray(nodeList){
+        var tempList, newArray;
+        tempList = nodeList;
+        newArray = [];
+        console.log(newArray);
+        
+        for (i = 0; i < nodeList.length; i++){
+            newArray[i] = nodeList[i];
+        };
+        return newArray;
+    };
+    
+    return {
+       
+    }
+})();
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
 // ROOM CONTROLLER >>>
 
 //////////////////////////////////////////////////
@@ -12,6 +47,119 @@
 
 var roomController = (function(){
     
+    
+    function Enemy(){
+       this.health = 100;
+       this.attack = 15;
+        this.curAttack = function(){
+            return (this.lvl * this.attack * Math.round(this.strMult));
+        };
+        this.curHealth = function(){
+            return (this.lvl * this.health * Math.round(this.defMult));
+        };
+    };
+    
+    function Family(statusEffect, statusResist){
+            this.statusEffect = statusEffect;
+            this.statusResist = statusResist;
+    };
+    
+Family.prototype = new Enemy();
+    
+    // Families
+    var insect = new Family ('miasma', 'poison');
+    var vermin = new Family ('Ill', 'Bleed')
+    
+    
+    // Species
+    
+    // Barrow Bug Worker/////////////////
+    function BarrowBugWorker(lvl, element){
+        this.lvl = lvl;
+        this.abilities = ['buzz', 'drone'];
+        this.passives = ['hive mind'];
+        this.attacks = ['bite', 'spit goo'];
+        this.element = element;
+        this.strMult = 1.1;
+        this.defMult = 1.6;
+    };
+    
+    // add family to prototype
+    BarrowBugWorker.prototype = insect;
+    
+    
+    // Barrow Bug Soldier/////////////////
+    function BarrowBugSoldier(lvl, element){
+        this.lvl = lvl;
+        this.abilities = ['buzz', 'drone'];
+        this.passives = ['hive mind'];
+        this.attacks = ['bite', 'spit goo'];
+        this.element = element;
+        this.strMult = 1.5;
+        this.defMult = 1.8;
+    };
+    
+    // add family to prototype
+    BarrowBugSoldier.prototype = insect;
+    
+    
+    // Barrow Bug Soldier/////////////////
+    function BarrowBugQueen(lvl, element){
+        this.lvl = lvl;
+        this.abilities = ['buzz', 'drone'];
+        this.passives = ['hive mind'];
+        this.attacks = ['bite', 'spit goo'];
+        this.element = element;
+        this.strMult = 2.5;
+        this.defMult = 2.0;
+    };
+    
+    // add family to prototype
+    BarrowBugQueen.prototype = insect;
+    
+    
+    // Rat /////////////////
+    function Rat(lvl, element){
+        this.lvl = lvl;
+        this.abilities = ['Fleas', 'Squeak'];
+        this.passives = ['Hanta Virus'];
+        this.attacks = ['Nibble', 'Claw'];
+        this.element = element;
+        this.strMult = 1.3;
+        this.defMult = 1.2;
+    };
+    
+    // add family to prototype
+    Rat.prototype = vermin;
+
+    
+     // Rat King /////////////////
+    function RatKing(lvl, element){
+        this.lvl = lvl;
+        this.abilities = ['Fleas', 'Squeak'];
+        this.passives = ['Hanta Virus'];
+        this.attacks = ['Nibble', 'Claw'];
+        this.element = element;
+        this.strMult = 3.3;
+        this.defMult = 2.2;
+    };
+    
+    // add family to prototype
+    RatKing.prototype = vermin;
+    
+    
+    var bugTest = new BarrowBugWorker(5, 'Dark');
+    var ratTest = new Rat(2, 'Earth');
+
+    console.log(bugTest.curHealth());
+    console.log(bugTest.curAttack());
+    console.log(ratTest);
+    
+    // combine a specific family object and element object into a new object to be added to a species' prototype
+    function combineFamilyEl(familyObj, elObj){
+        var returnObj = Object.assign(familyObj, elObj);
+        return returnObj;
+    }
     //// VARIABLES ////
         var rooms = {
         
@@ -30,213 +178,264 @@ var roomController = (function(){
                     hasInteract: false,
                     interactArray: []
                 },*/
-        
-        
+
         // standing at the enterance to the Shallow Fane
         sf_e00: {
                     description: 'Man stands at opening to Shallow Fane',
                     navDescrip: 'The gate to the Shallow Fane',
                     current: 'main_00',
-                    navOpt: ['e01']
+                    navOpt: ['e01'],
+                    enemies: [new Rat(2, 'Earth'), new BarrowBugWorker(4, 'Earth')]
                 },
         sf_e01: {
                     description: 'Enters gate to the Shallow Fane, heads down the stairs',
                     navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'main_01',
-                    navOpt: ['e00', 'e02']
+                    navOpt: ['e00', 'e02'],
+                    enemies: [new BarrowBugWorker(2, 'Earth'), new Rat(4, 'Earth')]
                 },
         sf_e02: {
                     description: 'At the foot of stairs, enters giant cavern. Burrow to right, cairns to left, temple ahead.',
+                    navDescrip: 'The large open cavern showing the enterance to the burrow, the cairn trail, and the temple.',
+
                     current: 'main_02',
-                    navOpt: ['e02', 'c00', 't00', 'b00']
+                    navOpt: ['e02', 'c00', 't00', 'b00'],
+                    enemies: []
                 },
         sf_b00: {
                     description: 'Inside of burrow enterance, hear scrabbling.',
+                    navDescrip: 'The stinky, slimy opening to the burrow. Scrabbling sounds inside.',
                     current: 'main_02',
-                    navOpt: ['b01']
+                    navOpt: ['b01'],
+                    enemies: ['Barrow Bug', 'Barrow Bug', 'Bat'],
+                    enemies: []
                 },
         sf_b01: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'Yikes! Two barrow bugs! They look like workers.',
                     current: 'burrow_00',
-                    navOpt: ['b00', 'b02']
+                    navOpt: ['b00','b03', 'b02'],
+                    enemies: []
                 },
        sf_b02: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'Crap, you fight a soldier Barrow Bug. A desicated corpse wears some valuable armor.',
                     current: 'burrow_00',
-                    navOpt: ['b01']
+                    navOpt: ['b01'],
+                    enemies: [new BarrowBugSoldier(3, 'Earth')]
                 },
         sf_b03: {
                 description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'More worker bugs. As long as you dont move too quickly they seem ok',
                 current: 'burrow_00',
-                navOpt: ['b01', 'b05','b04']
+                navOpt: ['b01', 'b05','b04'],
+                    enemies: ['Rat', 'Rat', 'Bat']
             },
         sf_b04: {
                 description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'Three soldier Barrow Bugs guard this immense storehouse filled with jewels, eggs, and "food"',
                 current: 'burrow_00',
-                navOpt: ['b03','b06']
+                navOpt: ['b03','b06'],
+                    enemies: []
             },
         sf_b05: {
                 description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'A quiet cross-section of tunnels with a stream of cold, sulpher-tasting water running through it. Husks lie about. A crumbling section of tunnel reveals stonework and torch light on the other side.',
                 current: 'burrow_00',
-                navOpt: ['t03', 'b03']
+                navOpt: ['t03', 'b03'],
+                    enemies: ['Rat', 'Rat', 'Bat']
             },
         sf_b06: {
                 description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                 current: 'burrow_00',
-                navOpt: []
+                navOpt: ['b04', 't03'],
+                    enemies: []
             },
         sf_b07: {
                 description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                 current: 'burrow_00',
-                navOpt: []
+                navOpt: ['b08'],
+                    enemies: [new BarrowBugQueen(5, 'Earth')]
             },
         sf_b08: {
                 description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                 current: 'burrow_00',
-                navOpt: []
+                navOpt: ['b07', 't04'],
+                    enemies: []
             },
         sf_t00: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: []
-                },
-        sf_t00: {
-                    description: 'Uh, oh, burrow bugs!',
-                    current: 'burrow_00',
-                    navOpt: []
+                    navOpt: ['e02', 't01'],
+                    enemies: []
                 },
         sf_t01: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: []
+                    navOpt: ['t00', 't05', 't03'],
+                    enemies: []
                 },
         sf_t02: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['t06', 'tb0', 't04'],
+                    enemies: []
                 },
         sf_t03: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['b05', 't01', 't04', 'b06'],
+                    enemies: []
                 },
         sf_t04: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['t03', 't02', 'b08'],
+                    enemies: []
                 },
         sf_t05: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['t06', 't01'],
+                    enemies: []
                 },
         sf_t06: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['t05', 't02'],
+                    enemies: []
                 },
         sf_tb0: {
-                    description: 'Uh, oh, burrow bugs!',
+                    description: 'All hail the rat king!',
+                    navDescrip: 'All hail the Rat king!',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['t02', 'tr0'],
+                    enemies: [new RatKing(5, 'Earth')]
                 },
         sf_tr0: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['tb0'],
+                    enemies: []
                 },
         sf_c00: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['b02', 'c01'],
+                    enemies: []
                 },
         sf_c01: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c05', 'c02'],
+                    enemies: []
                 },
         sf_c02: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c01', 'c03'],
+                    enemies: []
                 },
         sf_c03: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c02', 'c04'],
+                    enemies: []
                 },
         sf_c04: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c03', 't02'],
+                    enemies: []
                 },
         sf_c05: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c06', 'c01'],
+                    enemies: []
                 },
         sf_c06: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c05', 'c07'],
+                    enemies: []
                 },
         sf_c07: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c06', 'c08'],
+                    enemies: []
                 },
         sf_c08: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c09'],
+                    enemies: []
                 },
         sf_c09: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c08','c10'],
+                    enemies: []
                 },
         sf_c10: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['c09', 'cr0'],
+                    enemies: []
                 },
         sf_cr0: {
                     description: 'Uh, oh, burrow bugs!',
+                    navDescrip: 'The stairs to the gate of the Shallow Fane',
                     current: 'burrow_00',
-                    navOpt: [ ]
+                    navOpt: ['tb0', 'c10'],
+                    enemies: []
                 }
 };
     
     //// FUNCTIONS ////
     
         function loadNavButtons(curRoom){
-        var buttons = document.querySelector('#buttonContainer')
+        var buttons = document.querySelector('#buttonContainer');
         
-        buttons.innerHTML = '';
+        buttons.innerHTML = '<p><em>' + curRoom.navDescrip + '</em></p>';
         
         
         
         curRoom.navOpt.forEach(function(cur){
-            buttons.innerHTML += '<button id="' + cur + '">Forward to: ' + cur + '</button>'
+            buttons.innerHTML += '<button id="' + cur + '">Forward to: ' + cur + '</button><br/><br/>' 
         });
-        buttons.addEventListener('click', function(event, target){
-            
-            runRoom(rooms[event.target.id]);
-            console.log(event.target.id)
-            
-            
-        });
-        
-        
-        
-        
     };
     
+    
     function runRoom(curRoom){
+        
         var tempRoomObj = curRoom;
-        console.log(tempRoomObj);
         console.log(curRoom.description);
         
+        // loadNavButtons
         loadNavButtons(tempRoomObj);
         
     };
@@ -248,6 +447,8 @@ var roomController = (function(){
        runRoom: runRoom
     }
 })();
+
+
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
@@ -261,55 +462,10 @@ var roomController = (function(){
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-var dataController = (function(){
+var playerController = (function(){
     
     //// VARIABLES ////
    
-    var enemies = {
-        
-    };
-    
-
-    
-
-    
-   function Enemy(){
-       this.health = 100;
-       this.attack = 15;
-   };
-    
-    
-    function DarkEnemy(weakness, strength, strMult, defMult){
-        this.weakness = weakness;
-        this.strength = strength;
-        this.attack = Math.round(this.attack * strMult);
-        this.health = Math.round(this.health * defMult);
-    }
-    
-    DarkEnemy.prototype = new Enemy;
-    
-    var testEnemy = new DarkEnemy('Light', 'Dark', 1.1, 0.3);
-    var testEnemy2 = new DarkEnemy('Light', 'Dark', 1.3, 2.3);
-    
-    console.log(testEnemy);
-    console.log(testEnemy2);
-    
-    function Room(description, isBattle, enemyArray, hasChest, chestContents, hasRelic, whichRelic, hasInteract, interactArray){
-        this.description = description;
-        this.isBattle = isBattle;
-        this.enemyArray = enemyArray;
-        this.hasChest = hasChest;
-        this.chestContents = chestContents;
-        this.hasRelic = hasRelic;
-        this.whichRelic = whichRelic;
-        this.hasInteract = hasInteract;
-        this.interactArray = interactArray;
-    };
-    
-    
-    
-    
-    
     
     //// FUNCTIONS ////
     
@@ -369,22 +525,72 @@ var UIController = (function(){
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-var appController = (function(roomCtrl, dataCtrl, UICtrl){
+var appController = (function(roomCtrl, playerCtrl, UICtrl, battleCtrl){
     
     //// VARIABLES ////
     
     
     //// FUNCTIONS ////
+    
+    
+    
+    function innitCombat(roomObj){
+        console.log(roomObj.enemies);
+        var enemyArray = roomObj.enemies;
+        
+        var playerAttackBtn = document.querySelector('#playerAttackBtn');
+        
+        playerAttackBtn.classList.remove('hidden');
+        playerAttackBtn.addEventListener('click', function(){
+            roundCombat(enemyArray);
+        });
+        
+        // round of combat
+        
+        // check to see if enemy has 0 health
+        
+        // check to see if player has 0 health
+        
+        
+        roomObj.enemies.forEach(function(cur){
+            console.log(cur);
+            console.log(cur.curAttack());
+            console.log(cur.curHealth());
+        });
+        
+        
+    };
+    
+
+    
+    function roundCombat(playerObj, enemyArray){
+        
+        // player turn
+        
+        
+        // enemy turns
+        
+        
+    };
+    
     function innit(){
+        document.querySelector('#buttonContainer').addEventListener('click', function(event, target){
+            var roomObj = roomCtrl.rooms[('sf_' + event.target.id)];
+            roomCtrl.runRoom(roomObj);
+            if(roomObj.enemies.length > 0){
+                innitCombat(roomObj);
+            };
+        });
       console.log('innit run');
     console.log(roomCtrl.rooms);
-        roomCtrl.runRoom(roomCtrl.rooms.main_00);
+        roomCtrl.runRoom(roomCtrl.rooms.sf_e00);
+        
     };
     
     return {
        innit: innit
     }
-})(roomController, dataController, UIController);
+})(roomController, playerController, UIController, battleController);
 
 appController.innit();
 
